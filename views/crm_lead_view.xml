@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="crm_lead_view_form_ai_deal_health" model="ir.ui.view">
+        <field name="name">crm.lead.form.ai.deal.health</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ai_score" type="object" class="btn-primary" string="AI Score" />
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="AI Insights">
+                    <field name="ai_health_score" readonly="1" />
+                    <field name="ai_risk_level" readonly="1" />
+                    <field name="ai_next_action_hint" readonly="1" />
+                    <field name="ai_last_scored_on" readonly="1" />
+                    <field name="ai_risk_reasons" readonly="1" widget="text" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_kanban_ai_deal_health" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.ai.deal.health</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="ai_risk_level" />
+                <field name="ai_health_score" />
+            </xpath>
+            <xpath expr="//div[contains(@class,'o_kanban_record_title')]" position="after">
+                <div class="o_kanban_badges mt4">
+                    <t t-if="record.ai_risk_level.raw_value == 'at_risk'">
+                        <span class="o_kanban_badge o_tag o_tag_red">At Risk</span>
+                    </t>
+                    <t t-if="record.ai_risk_level.raw_value == 'warning'">
+                        <span class="o_kanban_badge o_tag o_tag_orange">Warning</span>
+                    </t>
+                    <t t-if="record.ai_risk_level.raw_value == 'healthy'">
+                        <span class="o_kanban_badge o_tag o_tag_green">Healthy</span>
+                    </t>
+                    <t t-if="record.ai_health_score.raw_value">
+                        <span class="o_kanban_badge o_tag o_tag_blue">
+                            <t t-esc="record.ai_health_score.raw_value"/>%
+                        </span>
+                    </t>
+                </div>
+            </xpath>
+            <xpath expr="//div[contains(@class,'o_kanban_record_title')]" position="before">
+                <t t-if="record.ai_risk_level.raw_value">
+                    <div
+                        t-att-style="'height:4px;border-radius:6px;margin-bottom:6px;background:' + (record.ai_risk_level.raw_value == 'at_risk' and '#e74c3c' or (record.ai_risk_level.raw_value == 'warning' and '#f39c12' or '#2ecc71'))"
+                    />
+                </t>
+            </xpath>
+            <xpath expr="//div[contains(@class,'o_kanban_record_title')]" position="inside">
+                <t t-if="record.ai_risk_level.raw_value">
+                    <span
+                        t-att-style="'display:inline-block;margin-right:6px;font-size:12px;color:' + (record.ai_risk_level.raw_value == 'at_risk' and '#e74c3c' or (record.ai_risk_level.raw_value == 'warning' and '#f39c12' or '#2ecc71'))"
+                    >●</span>
+                </t>
+            </xpath>
+        </field>
+    </record>
+</odoo>

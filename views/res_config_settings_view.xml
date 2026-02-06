@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_ai_deal_health" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.ai.deal.health</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class,'settings')]" position="inside">
+                <div class="app_settings_block" data-string="AI Deal Health" string="AI Deal Health">
+                    <h2>AI Deal Health Score</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane" />
+                            <div class="o_setting_right_pane">
+                                <label for="ai_sentiment_api_url" />
+                                <div class="text-muted">
+                                    Base URL of the sentiment API (e.g., http://localhost:7861)
+                                </div>
+                                <field name="ai_sentiment_api_url" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
